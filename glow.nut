@@ -1,7 +1,5 @@
-//
-// THIS IS FOR COMMON ANODE LEDS! They current SINK, which means 0
-// is ON. 
 
+// THIS IS FOR COMMON ANODE LEDS! They current SINK, which means 0 is ON. 
 class RGB
 {
    r = 1
@@ -99,21 +97,29 @@ class RGBLED
    }
 }
 
-
-
 led <- RGBLED(hardware.pin7, hardware.pin8, hardware.pin9);
-
 rgb <- RGB();
+
+count <- 0;
 
 function pulse() 
 {
-   led.setColor(rgb);
-   rgb.cycle();
+	led.setColor(rgb);
+	rgb.cycle();
 
-// schedule the loop to run again:
-imp.wakeup(0.01, pulse);
+	// schedule the loop to run again:
+	count--;
+	if (count > 0) {
+		imp.wakeup(0.01, pulse);
+	} else {
+		count = limit; // reset
+	}
 }
 
-// And, begin.
-pulse();
+function start_pulse(countSpec)
+{
+    count <- countSpec;
+    pulse();
+}
 
+agent.on("pulse.start", start_pulse);
