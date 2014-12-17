@@ -6,7 +6,7 @@ function request_handler(request, response)
 {
     try
     {
-    	if ("time" in request.query) {
+    	if ("time" in request.query) { // parse
     		count <- request.query.time.tointeger();
     	} else {
     		count <- limit; // default to limit
