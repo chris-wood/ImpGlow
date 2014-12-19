@@ -1,19 +1,19 @@
 // Default count for the lights
-limit <- 500s;
+limit <- 500;
 
 // HTTP request handler
 function request_handler(request, response)
 {
     try
     {
-    	if ("time" in request.query) { // parse
-    		count <- request.query.time.tointeger();
-    	} else {
-    		count <- limit; // default to limit
-    	}
+        if ("time" in request.query) {
+            count <- request.query.time.tointeger();
+        } else {
+            count <- limit; // default to limit
+        }
 
-    	device.send("pulse.start", count);
-    	response.send(200, "OK"); 
+        device.send("pulse.start", count);
+        response.send(200, "OK"); 
     }
     catch (ex)
     {

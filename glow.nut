@@ -78,7 +78,7 @@ class RGBLED
        greenPin.configure(PWM_OUT, 1.0/400.0, 0.0);
        bluePin.configure(PWM_OUT, 1.0/400.0, 0.0);
        
-       setLevels(1, 1, 1); // 1 == OFF, it's a SINK.
+       setLevels(0, 0, 0); // 1 == OFF, it's a SINK.
        
        server.log("Constructed");
    }
@@ -104,21 +104,23 @@ count <- 0;
 
 function pulse() 
 {
-	led.setColor(rgb);
-	rgb.cycle();
+  led.setColor(rgb);
+  rgb.cycle();
 
-	// schedule the loop to run again:
-	count--;
-	if (count > 0) {
-		imp.wakeup(0.01, pulse);
-	} else {
-		count = limit; // reset
-	}
+  // schedule the loop to run again:
+  count--;
+  if (count > 0) {
+    imp.wakeup(0.01, pulse);
+  } else {
+    count = limit; // reset
+    led.setLevels(0, 0, 0); // 1 == OFF, it's a SINK.
+  }
 }
 
 function start_pulse(countSpec)
 {
     count <- countSpec;
+    led.setLevels(0, 0, 0); // 1 == OFF, it's a SINK.
     pulse();
 }
 
