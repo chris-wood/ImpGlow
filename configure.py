@@ -9,11 +9,11 @@ import os
 PROGRAMNAME = "hi-love"
 
 def main():
-	performInstall = False
+	performInstall = True
 	if os.path.isfile(PROGRAMNAME):
 		answer = raw_input("The file " + PROGRAMNAME + " already exists -- continue? (y/n): ")
 		if "n" in answer:
-			pass
+			performInstall = False
 		else:
 			os.remove(PROGRAMNAME)
 			performInstall = True
@@ -52,13 +52,12 @@ def install():
 	template = open(PROGRAMNAME + ".py", "r")
 	executable = open(PROGRAMNAME, "w")
 	for line in template:
-		line = line.strip()
-		if "agentMap = MAP" in line:
-			executable.write("agentMap = " + str(agentMap) + "\n")
+		if "MAP" in line:
+			executable.write(line.replace("MAP", str(agentMap)))
 		elif "NAME" in line:
-			executable.write(line.replace("NAME", name) + "\n")
+			executable.write(line.replace("NAME", name))
 		else:
-			executable.write(line + "\n")
+			executable.write(line)
 	executable.flush()
 	executable.close()
 	os.chmod(PROGRAMNAME, 777) 
