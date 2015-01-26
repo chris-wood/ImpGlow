@@ -27,6 +27,9 @@ public class DisplayMessageActivity extends ActionBarActivity {
 
         // Set the text view as the activity layout
         setContentView(textView);
+
+        // Enable backwards navigation to the parent
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
