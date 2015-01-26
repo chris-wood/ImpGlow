@@ -8,15 +8,26 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.content.Intent;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class MainActivity extends ActionBarActivity {
 
     public final static String EXTRA_MESSAGE = "cawcode.cwood.impglow.MESSAGE"; // key for intent object
 
+    private static final String[] imps = {"imp 1", "imp 2", "imp 3"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        LinearLayout ll = (LinearLayout) findViewById(R.id.imp_list);
+        for (int i = 0; i < imps.length; i++) {
+            TextView view = new TextView(this);
+            view.setText(imps[i].toCharArray(), 0, imps[i].length());
+            ll.addView(view);
+        }
     }
 
 
