@@ -2,6 +2,7 @@ package cawcode.cwood.impglow;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
@@ -15,21 +16,11 @@ public class MainActivity extends ActionBarActivity {
 
     public final static String EXTRA_MESSAGE = "cawcode.cwood.impglow.MESSAGE"; // key for intent object
 
-    private static final String[] imps = {"imp 1", "imp 2", "imp 3"};
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        LinearLayout ll = (LinearLayout) findViewById(R.id.imp_list);
-        for (int i = 0; i < imps.length; i++) {
-            TextView view = new TextView(this);
-            view.setText(imps[i].toCharArray(), 0, imps[i].length());
-            ll.addView(view);
-        }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -39,13 +30,47 @@ public class MainActivity extends ActionBarActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    public void sendMessage(View view) {
-        // Do something in response to button
-        Intent intent = new Intent(this, DisplayMessageActivity.class);
-        EditText editText = (EditText) findViewById(R.id.edit_message);
-        String message = editText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, message);
-        startActivity(intent);
+//    public void sendMessage(View view) {
+//        // Do something in response to button
+//        Intent intent = new Intent(this, DisplayMessageActivity.class);
+//        EditText editText = (EditText) findViewById(R.id.edit_message);
+//        String message = editText.getText().toString();
+//        intent.putExtra(EXTRA_MESSAGE, message);
+//        startActivityForResult(intent, 10); // matches code below, TODO: define an enum to capture these codes
+//    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch(requestCode) {
+            case 10:
+                System.out.println("HERE MOFO");
+                if (resultCode == RESULT_OK) {
+                    Bundle res = data.getExtras();
+                    String deviceId = res.getString("device_id");
+                    String deviceUrl = res.getString("device_url");
+
+                    // DEBUG
+                    System.out.println(deviceId + " - " + deviceUrl);
+
+                    LinearLayout ll = (LinearLayout) findViewById(R.id.imp_list);
+                    TextView idView = new TextView(this);
+                    idView.setWidth(LinearLayout.LayoutParams.FILL_PARENT);
+                    idView.setText(deviceId.toCharArray(), 0, deviceId.length());
+                    ll.addView(idView);
+
+                    TextView urlView = new TextView(this);
+                    urlView .setWidth(LinearLayout.LayoutParams.FILL_PARENT);
+                    urlView .setText(deviceUrl.toCharArray(), 0, deviceUrl.length());
+                    ll.addView(urlView);
+                } else {
+                    System.out.println("Result code was not RESULT_OK");
+                }
+                break;
+        }
+    }
+
+    public void registerImp(View view) {
+        Intent intent = new Intent(this, ImpRegistrationActivity.class);
+        startActivityForResult(intent, 10); // matches code below, TODO: define an enum to capture these codes
     }
 
     @Override

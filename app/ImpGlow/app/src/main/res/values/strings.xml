@@ -8,5 +8,10 @@
     <string name="button_send">Send</string>
     <string name="title_activity_display_message">DisplayMessageActivity</string>
     <string name="action_search">Search</string>
+    <string name="add_imp_string">Register an Imp</string>
+    <string name="add_imp_button">Register an Imp</string>
+    <string name="title_activity_imp_registration">Register an Imp</string>
+    <string name="device_id">Device ID</string>
+    <string name="device_url">Device URL</string>
 
 </resources>
